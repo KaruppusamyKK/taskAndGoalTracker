@@ -168,20 +168,26 @@ public class TaskService {
     }
 
     private void insertNewAssignee(AssigneeRequest assigneeRequest) {
-        taskAssigneeRepository.findByTaskId(assigneeRequest.taskId())
-                .ifPresent(taskList -> {
-                    assigneeRequest.assigneeList().forEach(assignee -> {
-                        TaskAssignee taskAssignee = TaskAssignee
-                                .builder()
-                                .taskId(assigneeRequest.taskId())
-                                .task(taskList.get(0).getTask())
-                                .assignee(assignee)
-                                .build();
-                        taskAssigneeRepository.save(taskAssignee);
-                    });
-                });
-
+        List<TaskAssignee> taskList = taskAssigneeRepository.findByTaskId(assigneeRequest.taskId())
+                .orElse(List.of());
+        Task task;
+        if (taskList.isEmpty()) {
+            task = taskRepository.findByTaskId(assigneeRequest.taskId())
+                    .orElseThrow(() -> new IllegalArgumentException("Task not found for ID: " + assigneeRequest.taskId()));
+        } else {
+            task = taskList.get(0).getTask();
+        }
+        for (String assignee : assigneeRequest.assigneeList()) {
+            TaskAssignee taskAssignee = TaskAssignee.builder()
+                    .taskId(assigneeRequest.taskId())
+                    .task(task)
+                    .assignee(assignee)
+                    .build();
+            taskAssigneeRepository.save(taskAssignee);
+        }
     }
+
+
 }
 
 

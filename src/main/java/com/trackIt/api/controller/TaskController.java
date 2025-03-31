@@ -1,13 +1,15 @@
 package com.trackIt.api.controller;
+
 import com.trackIt.api.dto.request.AssigneeRequest;
 import com.trackIt.api.dto.request.TaskRequest;
-import com.trackIt.api.dto.request.TaskUpdateRequest;
 import com.trackIt.api.dto.response.ResponseHandler;
 import com.trackIt.api.model.Task;
+import com.trackIt.api.service.NotificationService;
 import com.trackIt.api.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -20,9 +22,12 @@ public class TaskController {
 
     private final TaskService taskService;
 
+    private final NotificationService notificationService;
+
+
     @PostMapping("/createTask")
     public ResponseEntity<?> createTask(@RequestBody TaskRequest taskRequest) {
-        logger.info("Creating task with request {} ",taskRequest);
+        logger.info("Creating task with request {} ", taskRequest);
         return ResponseHandler.handleResponse(() -> taskService.createTask(taskRequest));
     }
 
@@ -42,7 +47,7 @@ public class TaskController {
     }
 
     @PostMapping("/updateTaskDetails")
-        public ResponseEntity<?> updateTaskDetails(@RequestBody Task task, @RequestParam String taskId) {
+    public ResponseEntity<?> updateTaskDetails(@RequestBody Task task, @RequestParam String taskId) {
         return ResponseHandler.handleResponse(() -> taskService.updateTaskDetails(task, taskId));
 
     }
@@ -50,7 +55,7 @@ public class TaskController {
     @PostMapping("/deleteTaskById")
     public ResponseEntity<?> deleteTaskById(@RequestBody Map<String, String> request) {
         String taskId = request.get("taskId");
-        logger.info("TaskID {} ",taskId);
+        logger.info("TaskID {} ", taskId);
         return ResponseHandler.handleResponse(() -> taskService.deleteTaskById(taskId));
     }
 
@@ -58,9 +63,11 @@ public class TaskController {
     @PostMapping("/updateAssignee")
     public ResponseEntity<?> updateAssignee(@RequestBody AssigneeRequest assigneeRequest) {
         logger.info("Request to update assignee {} ", assigneeRequest);
-        return ResponseHandler.handleResponse(() -> taskService.updateAssignee(assigneeRequest));
+        ResponseEntity<?> response = ResponseHandler.handleResponse(() -> taskService.updateAssignee(assigneeRequest));
+        if (response.getStatusCode().is2xxSuccessful()){
+            logger.info("Assignee updation success !!!! ");
+            notificationService.saveUserNotifications(assigneeRequest);
+        }
+        return response;
     }
-
-
-
 }

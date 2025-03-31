@@ -10,7 +10,7 @@ import java.math.BigInteger;
 @NoArgsConstructor
 @Entity
 @Table(name = "users", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "username"),
+        @UniqueConstraint(columnNames = "assigner"),
         @UniqueConstraint(columnNames = "email")
 })
 public class User {

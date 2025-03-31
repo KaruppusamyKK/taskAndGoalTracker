@@ -23,6 +23,8 @@ public class Notification {
 
     private LocalDateTime timestamp;
 
+    private String notificationReceiver;
+
     @PrePersist
     private void setDefault() {
         this.timestamp = LocalDateTime.now();

@@ -15,10 +15,10 @@ declare -A book_get_books
 declare -A book_create_book
 declare -A book_delete_book
 
-ADMIN_AUTH_RESP=$(curl -s -X POST localhost:8080/auth/authenticate -H 'Content-Type: application/json' -d '{"username": "admin", "password": "admin"}')
-USER_AUTH_RESP=$(curl -s -X POST localhost:8080/auth/authenticate -H 'Content-Type: application/json' -d '{"username": "user", "password": "user"}')
+ADMIN_AUTH_RESP=$(curl -s -X POST localhost:8080/auth/authenticate -H 'Content-Type: application/json' -d '{"assigner": "admin", "password": "admin"}')
+USER_AUTH_RESP=$(curl -s -X POST localhost:8080/auth/authenticate -H 'Content-Type: application/json' -d '{"assigner": "user", "password": "user"}')
 
-USER2_AUTH_RESP=$(curl -s -X POST localhost:8080/auth/signup -H 'Content-Type: application/json' -d '{"username": "user2", "password": "user2", "name": "User2", "email": "user2@mycompany.com"}')
+USER2_AUTH_RESP=$(curl -s -X POST localhost:8080/auth/signup -H 'Content-Type: application/json' -d '{"assigner": "user2", "password": "user2", "name": "User2", "email": "user2@mycompany.com"}')
 
 public_number_of_users[without_creds]=$(curl -w %{http_code} -s -o /dev/null localhost:8080/public/numberOfUsers)
 public_number_of_users[user_creds]=$(curl -w %{http_code} -s -o /dev/null -u user:user localhost:8080/public/numberOfUsers)

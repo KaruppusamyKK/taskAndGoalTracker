@@ -1,8 +1,10 @@
 package com.trackIt.api.mapper;
 import com.trackIt.api.Utils.Utility;
 import com.trackIt.api.dto.Message;
+import com.trackIt.api.dto.request.AssigneeRequest;
 import com.trackIt.api.dto.request.TaskRequest;
 import com.trackIt.api.model.Chat;
+import com.trackIt.api.model.Notification;
 import com.trackIt.api.model.Task;
 import com.trackIt.api.model.TaskAssignee;
 
@@ -14,7 +16,8 @@ public class EntityMapper {
 
 
     public static Task mapToTaskBuilder(TaskRequest task,String taskId){
-        return new Task().builder()
+        new Task();
+        return Task.builder()
                 .taskId(taskId)
                 .description(task.description())
                 .taskName(task.taskName())
@@ -54,12 +57,44 @@ public class EntityMapper {
     public static List<TaskAssignee> mapToTaskAssigneeBuilder(TaskRequest request, Task currentTask,String taskId) {
         List<TaskAssignee> taskAssigneeList = new ArrayList<>();
         request.assignee().forEach(taskAssignee -> {
-            TaskAssignee currentTaskAssignee  = new TaskAssignee()
+            new TaskAssignee();
+            TaskAssignee currentTaskAssignee  = TaskAssignee
                     .builder().task(currentTask)
                     .assignee(taskAssignee)
                     .taskId(taskId)
+                    .assigner(request.assigner())
                     .build();
             taskAssigneeList.add(currentTaskAssignee);
+        });
+        return taskAssigneeList;
+    }
+
+    public static List<Notification> mapNotificationEntity(AssigneeRequest notificationRequest, String message){
+        List<Notification> notificationsList = new ArrayList<>();
+        notificationRequest.assigneeList().forEach(list->{
+            Notification notification = Notification.builder()
+                    .taskName(notificationRequest.taskName())
+                    .description(notificationRequest.description())
+                    .Message(message)
+                    .sender(notificationRequest.assigner())
+                    .notificationReceiver(list)
+                    .build();
+            notificationsList.add(notification);
+        });
+        return notificationsList;
+    }
+
+    public static List<TaskAssignee> mapNotificationToAssigneeEntity(AssigneeRequest notificationRequest,Task task) {
+        List<TaskAssignee> taskAssigneeList = new ArrayList<>();
+        notificationRequest.assigneeList().forEach(assigneeList->{
+             TaskAssignee assignee = new TaskAssignee();
+            TaskAssignee.builder()
+                    .assignee(assigneeList)
+                    .assigner(notificationRequest.assigner())
+                    .taskId(task.getTaskId())
+                    .task(task)
+                    .build();
+            taskAssigneeList.add(assignee);
         });
         return taskAssigneeList;
     }

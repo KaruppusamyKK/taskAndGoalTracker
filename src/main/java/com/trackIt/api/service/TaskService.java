@@ -182,6 +182,7 @@ public class TaskService {
                     .taskId(assigneeRequest.taskId())
                     .task(task)
                     .assignee(assignee)
+                    .assigner(assigneeRequest.assigner())
                     .build();
             taskAssigneeRepository.save(taskAssignee);
         }

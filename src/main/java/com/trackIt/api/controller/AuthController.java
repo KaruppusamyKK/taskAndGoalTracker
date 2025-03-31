@@ -34,7 +34,7 @@ public class AuthController {
             return ResponseEntity.ok(token);
         } catch (AuthenticationException e) {
             logger.warn("Invalid credentials for user: {}", request.username());
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid assigner or password.");
         }
     }
 

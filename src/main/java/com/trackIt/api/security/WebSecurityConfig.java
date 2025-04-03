@@ -35,6 +35,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                         .requestMatchers("/","/api/auth/**").permitAll()
                         .requestMatchers("/readImage").permitAll()
+                        .requestMatchers("/notify/**","/notify/send/**").permitAll()
                         .requestMatchers("/websocket/**","/app/**", "/messageTo/send/**","/message","/messageTo/send").permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())

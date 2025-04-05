@@ -36,7 +36,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/","/api/auth/**").permitAll()
                         .requestMatchers("/readImage").permitAll()
                         .requestMatchers("/notify/**","/notify/send/**").permitAll()
-                        .requestMatchers("/websocket/**","/app/**", "/messageTo/send/**","/message","/messageTo/send").permitAll()
+                        .requestMatchers("/websocket/**","/app/**", "/messageTo/send/**","/chatMessageTo/send/**","/chatMessageTo/send/**","/message","/messageTo/send").permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

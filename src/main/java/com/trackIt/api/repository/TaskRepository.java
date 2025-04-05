@@ -47,7 +47,7 @@ public interface TaskRepository extends JpaRepository<Task,Long> {
 
 
     @Query(value = "SELECT t.task_id, t.description, t.task_name, t.priority, " +
-            "GROUP_CONCAT(a.assignee) AS assignees, " +
+            "GROUP_CONCAT(a.assignee) AS assignee, " +
             "t.assigner, t.status, t.time_estimate, t.time_tracked, " +
             "t.due_date, t.start_date " +
             "FROM task_assignee a " +

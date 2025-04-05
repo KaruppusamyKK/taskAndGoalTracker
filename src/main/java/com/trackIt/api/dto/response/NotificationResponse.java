@@ -21,13 +21,16 @@ public class NotificationResponse {
 
     private LocalDateTime timestamp;
 
+    private String notificationId;
 
-    public NotificationResponse(String taskName, String description, String sender, String action, String message, LocalDateTime timestamp) {
+
+    public NotificationResponse(String taskName, String description, String sender, String action, String message, LocalDateTime timestamp,String notificationId) {
         this.taskName = taskName;
         this.description = description;
         this.sender = sender;
         this.action = action;
         this.message = message;
         this.timestamp = timestamp;
+        this.notificationId = notificationId;
     }
 }

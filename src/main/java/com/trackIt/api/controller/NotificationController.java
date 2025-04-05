@@ -1,4 +1,5 @@
 package com.trackIt.api.controller;
+import com.trackIt.api.dto.response.NotificationDto;
 import com.trackIt.api.dto.response.NotificationResponse;
 import com.trackIt.api.dto.response.ResponseHandler;
 import com.trackIt.api.service.NotificationService;
@@ -24,9 +25,20 @@ public class NotificationController {
     }
 
     @GetMapping("/getNotifications")
-    public ResponseEntity<List<NotificationResponse>> getNotifications(@RequestParam String user) {
+    public ResponseEntity<NotificationDto> getNotifications(@RequestParam String user) {
         return ResponseEntity.ok(notificationService.getUserNotifications(user));
     }
+
+    @PostMapping("/clearNotificationCount")
+    public ResponseEntity<?> clearNotificationCount(@RequestParam String user) {
+        return ResponseHandler.handleResponse(() -> notificationService.clearNotificationCount(user));
+    }
+
+    @PostMapping("/deleteNotification")
+    public ResponseEntity<?> deleteNotification(@RequestParam String notificationId){
+        return ResponseHandler.handleResponse(() -> notificationService.deleteNotification(notificationId));
+    }
+
 
 
 }

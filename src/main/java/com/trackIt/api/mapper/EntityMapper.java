@@ -78,6 +78,7 @@ public class EntityMapper {
                     .Message(message)
                     .sender(notificationRequest.assigner())
                     .notificationReceiver(list)
+                    .notificationId(Utility.generateRandomString())
                     .build();
             notificationsList.add(notification);
         });

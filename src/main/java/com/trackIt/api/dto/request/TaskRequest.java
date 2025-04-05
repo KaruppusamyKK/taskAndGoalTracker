@@ -1,5 +1,4 @@
 package com.trackIt.api.dto.request;
-import com.trackIt.api.model.TaskAssignee;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;

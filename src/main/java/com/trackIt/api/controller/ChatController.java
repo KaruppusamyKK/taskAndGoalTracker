@@ -19,10 +19,6 @@ public class ChatController {
         return ResponseHandler.handleResponse(() -> chatService.getChatsByTaskId(taskId));
     }
 
-//    @PostMapping("/saveMultimedia")
-//    public ResponseEntity<?> saveMultimedia(@RequestParam String taskId){
-//        return ResponseHandler.handleResponse(() -> chatService.saveMultimedia(taskId));
-//    }
 
 
 

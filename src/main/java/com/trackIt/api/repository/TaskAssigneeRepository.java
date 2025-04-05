@@ -13,7 +13,6 @@ import java.util.Optional;
 public interface TaskAssigneeRepository extends JpaRepository<TaskAssignee,Long> {
 
 
-    Optional<List<TaskAssignee>> findByAssignee(String assignee);
 
 
     Optional<List<TaskAssignee>> findByTaskId(String taskId);
@@ -23,8 +22,8 @@ public interface TaskAssigneeRepository extends JpaRepository<TaskAssignee,Long>
 
     @Modifying
     @Transactional
-    @Query("UPDATE TaskAssignee t SET t.assignee = NULL WHERE t.taskId = :taskId AND t.assignee IN :assignees")
-    void removeAssignee(@Param("taskId") String taskId, @Param("assignees") List<String> assignees);
+    @Query("UPDATE TaskAssignee t SET t.assignee = NULL WHERE t.taskId = :taskId AND t.assignee IN :assignee")
+    void removeAssignee(@Param("taskId") String taskId, @Param("assignee") List<String> assignees);
 
 
 }

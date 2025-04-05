@@ -103,7 +103,7 @@ public class TaskService {
         return mapResultsToDto(taskRepository.findTasksByAssignee(user));
     }
 
-    public List<UserTaskDto> mapResultsToDto(List<Object[]> results) {
+    public static List<UserTaskDto> mapResultsToDto(List<Object[]> results) {
         List<UserTaskDto> dtos = new ArrayList<>();
         for (Object[] row : results) {
             List<String> assignees = Arrays.asList(((String) row[4]).split(","));

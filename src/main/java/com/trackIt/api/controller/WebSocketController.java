@@ -25,13 +25,13 @@ public class WebSocketController {
     private final NotificationService notificationService;
 
 
-//    @MessageMapping("/message")
-//    @SendTo("/messageTo/send")
-//    public ResponseEntity<Message> sendPayLoad(Message request){
-//        logger.info("Received req in webSocket are {} ",request);
-//        chatService.saveChatMessages(request);
-//        return ResponseEntity.ok(request);
-//    }
+    @MessageMapping("/chatMessage")
+    @SendTo("/chatMessageTo/send")
+    public ResponseEntity<Message> sendPayLoad(Message request){
+        logger.info("Received req in webSocket are {} ",request);
+        chatService.saveChatMessages(request);
+        return ResponseEntity.ok(request);
+    }
 
     @MessageMapping("/message")
     @SendTo("/messageTo/send")

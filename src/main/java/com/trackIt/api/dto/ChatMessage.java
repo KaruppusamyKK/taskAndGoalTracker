@@ -1,5 +1,5 @@
 package com.trackIt.api.dto;
-public record Message(
+public record ChatMessage(
         String sender,
         String content,
         String taskId

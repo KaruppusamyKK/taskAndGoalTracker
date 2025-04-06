@@ -22,15 +22,21 @@ public class AuthController {
     private final AuthenticationManager authManager;
     private final JwtService jwtService;
 
+
+    /***
+     * @param request
+     * Username & password are given and as response JWT token is responded to UI
+     */
+
     @PostMapping("/authenticate")
     public ResponseEntity<String> login(@RequestBody LoginRequest request) {
         try {
             logger.info("Login attempt by user: {}", request.username());
-
             Authentication authentication = authManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.username(), "{noop}" + request.password())
             );
             String token = jwtService.generateAccessToken(request.username());
+            logger.info(!token.isEmpty() ? "Token generation success" : "Token generation failure");
             return ResponseEntity.ok(token);
         } catch (AuthenticationException e) {
             logger.warn("Invalid credentials for user: {}", request.username());
@@ -40,7 +46,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
-        logger.info("Signup request  {} ", request);
+        logger.info("Signup request for username {} , and Request Object {} ", request.username(),request);
         RegisterServiceResponse registerServiceResponse = userService.registerUser(request);
         return ResponseEntity.status(HttpStatus.OK).body(registerServiceResponse.message());
     }

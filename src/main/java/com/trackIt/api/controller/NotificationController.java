@@ -18,26 +18,31 @@ public class NotificationController {
 
     private final NotificationService notificationService;
 
+    @GetMapping("/getNotifications")
+    public ResponseEntity<NotificationDto> getNotifications(@RequestParam String user) {
+        logger.info("Requesting to retrieve Notification for user {}",user);
+        return ResponseEntity.ok(notificationService.getUserNotifications(user));
+    }
+
+    @PostMapping("/deleteNotification")
+    public ResponseEntity<?> deleteNotification(@RequestParam String notificationId){
+        logger.info("Requesting to delete Notification for ID {}",notificationId);
+        return ResponseHandler.handleResponse(() -> notificationService.deleteNotification(notificationId));
+    }
 
     @GetMapping("/getNotificationCount")
     public ResponseEntity<?> getNotificationCount(@RequestParam String user) {
         return ResponseHandler.handleResponse(() -> notificationService.getNotificationCount(user));
     }
 
-    @GetMapping("/getNotifications")
-    public ResponseEntity<NotificationDto> getNotifications(@RequestParam String user) {
-        return ResponseEntity.ok(notificationService.getUserNotifications(user));
-    }
+
 
     @PostMapping("/clearNotificationCount")
     public ResponseEntity<?> clearNotificationCount(@RequestParam String user) {
         return ResponseHandler.handleResponse(() -> notificationService.clearNotificationCount(user));
     }
 
-    @PostMapping("/deleteNotification")
-    public ResponseEntity<?> deleteNotification(@RequestParam String notificationId){
-        return ResponseHandler.handleResponse(() -> notificationService.deleteNotification(notificationId));
-    }
+
 
 
 

@@ -1,4 +1,5 @@
 package com.trackIt.api.model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -53,5 +54,9 @@ public class Task {
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<TaskAssignee> taskAssignees;
+
+    @ManyToOne
+    @JoinColumn(name = "project_ref")
+    private Project project;
 
 }

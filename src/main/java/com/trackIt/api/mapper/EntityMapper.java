@@ -1,12 +1,10 @@
 package com.trackIt.api.mapper;
 import com.trackIt.api.Utils.Utility;
-import com.trackIt.api.dto.Message;
+import com.trackIt.api.dto.ChatMessage;
 import com.trackIt.api.dto.request.AssigneeRequest;
+import com.trackIt.api.dto.request.ProjectRequest;
 import com.trackIt.api.dto.request.TaskRequest;
-import com.trackIt.api.model.Chat;
-import com.trackIt.api.model.Notification;
-import com.trackIt.api.model.Task;
-import com.trackIt.api.model.TaskAssignee;
+import com.trackIt.api.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +41,7 @@ public class EntityMapper {
         Optional.ofNullable(taskRequest.getDueDate()).ifPresent(existingTask::setDueDate);
     }
 
-    public static Chat mapToChatBuilder(Message request,Task task) {
+    public static Chat mapToChatBuilder(ChatMessage request, Task task) {
         return Chat.builder()
                 .sender(request.sender())
                 .content(request.content())
@@ -85,18 +83,14 @@ public class EntityMapper {
         return notificationsList;
     }
 
-    public static List<TaskAssignee> mapNotificationToAssigneeEntity(AssigneeRequest notificationRequest,Task task) {
-        List<TaskAssignee> taskAssigneeList = new ArrayList<>();
-        notificationRequest.assigneeList().forEach(assigneeList->{
-             TaskAssignee assignee = new TaskAssignee();
-            TaskAssignee.builder()
-                    .assignee(assigneeList)
-                    .assigner(notificationRequest.assigner())
-                    .taskId(task.getTaskId())
-                    .task(task)
-                    .build();
-            taskAssigneeList.add(assignee);
-        });
-        return taskAssigneeList;
+    public static void updateNonNullProjectFields(Project project, ProjectRequest projectRequest) {
+        Optional.ofNullable(projectRequest.getDescription()).ifPresent(project::setDescription);
+        Optional.ofNullable(projectRequest.getProjectName()).ifPresent(project::setProjectName);
+        Optional.ofNullable(projectRequest.getPriority()).ifPresent(project::setPriority);
+        Optional.ofNullable(projectRequest.getProjectCreator()).ifPresent(project::setProjectCreator);
+        Optional.ofNullable(projectRequest.getStartDate()).ifPresent(project::setStartDate);
+        Optional.ofNullable(projectRequest.getEndDate()).ifPresent(project::setEndDate);
+        Optional.ofNullable(projectRequest.getStatus()).ifPresent(project::setStatus);
+        Optional.ofNullable(projectRequest.getProjectCreator()).ifPresent(project::setProjectCreator);
     }
 }

@@ -9,7 +9,6 @@ import com.trackIt.api.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -21,7 +20,6 @@ import java.util.Map;
 public class TaskController {
 
     private final TaskService taskService;
-
     private final NotificationService notificationService;
 
 
@@ -55,7 +53,6 @@ public class TaskController {
     @PostMapping("/deleteTaskById")
     public ResponseEntity<?> deleteTaskById(@RequestBody Map<String, String> request) {
         String taskId = request.get("taskId");
-        logger.info("TaskID {} ", taskId);
         return ResponseHandler.handleResponse(() -> taskService.deleteTaskById(taskId));
     }
 
@@ -64,8 +61,8 @@ public class TaskController {
     public ResponseEntity<?> updateAssignee(@RequestBody AssigneeRequest assigneeRequest) {
         logger.info("Request to update assignee {} ", assigneeRequest);
         ResponseEntity<?> response = ResponseHandler.handleResponse(() -> taskService.updateAssignee(assigneeRequest));
-        if (response.getStatusCode().is2xxSuccessful()){
-            logger.info("Assignee updation success !!!! ");
+        if (response.getStatusCode().is2xxSuccessful()) {
+            logger.info("Assignee update success !!!! ");
             notificationService.saveUserNotifications(assigneeRequest);
         }
         return response;
